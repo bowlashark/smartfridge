@@ -133,7 +133,7 @@ class DBQueryModule:
         result = (
             self.db.table("ingredients")
             .select("*")
-            .ilike("name", f"%{keyword}%")
+            .ilike("name", f"*{keyword}*")
             .execute()
         )
         return result.data
