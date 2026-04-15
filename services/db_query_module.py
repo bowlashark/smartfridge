@@ -79,7 +79,7 @@ class DBQueryModule:
     # ----------------------------------------------------------------
     # A.2 主庫查詢（Inventory）
     # ----------------------------------------------------------------
-    def query_inventory_all(self, user_id: int = None):
+    def query_inventory_all(self, user_id: str = None):
         """
         查詢庫存列表（可選依 user_id 篩選）
         統一透過 service 層存取資料庫。
@@ -100,7 +100,7 @@ class DBQueryModule:
         )
         return result.data[0] if result.data else None
 
-    def search_inventory(self, user_id: int, keyword: str):
+    def search_inventory(self, user_id: str, keyword: str):
         """
         報告 3-3-2 A.2：主庫查詢
         先在使用者庫存中搜尋符合關鍵字的食材。
@@ -198,7 +198,7 @@ class DBQueryModule:
         result = self.db.table("users").select("*").execute()
         return result.data
 
-    def query_user_by_id(self, user_id: int):
+    def query_user_by_id(self, user_id: str):
         """透過 ID 查詢使用者"""
         result = (
             self.db.table("users")

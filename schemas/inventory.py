@@ -19,7 +19,7 @@ class InventoryCreate(BaseModel):
                    後端自動以 added_date + default_expire_days 計算
     - custom_expire: 是否為使用者自訂到期日
     """
-    user_id: int
+    user_id: str
     ingredient_id: int
     quantity: int = 1
     added_date: Optional[date] = None
@@ -42,7 +42,7 @@ class InventoryResponse(BaseModel):
     model_config = ConfigDict(extra="ignore")  # 忽略 Supabase 回傳的多餘欄位
 
     inventory_id: int
-    user_id: int
+    user_id: str
     ingredient_id: int
     ingredient_name: Optional[str] = None
     quantity: int

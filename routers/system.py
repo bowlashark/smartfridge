@@ -14,9 +14,6 @@ from services.expiry_module import ExpiryModule
 class RecognizeRequest(BaseModel):
     image_base64: str
 
-class BarcodeRequest(BaseModel):
-    barcode: str
-
 router = APIRouter(
     prefix="/api/v1/system",
     tags=["System 系統控制"]
@@ -89,37 +86,23 @@ def recognize_food(request: RecognizeRequest):
     影像辨識 API
     對應報告 3-2-1：前端 -> 辨識模組 (Recognition API)
 
-    TODO: ❹ 需與負責 AI/辨識模組的同學確認以下事項後才能實作：
-      1. 影像辨識模組是獨立的服務還是整合在同一個 FastAPI 後端？
-      2. 辨識模組的 API 格式（URL、Request/Response 格式）
-      3. 回傳 JSON 格式的實際範例（Label、Confidence Score、邊框座標）
+    # TODO: 真正實作時，這裡會把 request.image_base64 送給影像辨識模組
+    # 這裡先套用組長給的回傳格式進行 Mock
+    mock_response = {"label": "番茄", "confidence": 0.92}
+    
+    # 報告 3-5-4：信心門檻機制，初步設定為 0.85
+    if mock_response["confidence"] >= 0.85:
+        return {
+            "status": "success",
+            "message": "辨識成功",
+            "data": mock_response
+        }
+    else:
+        return {
+            "status": "fail",
+            "message": "辨識信心度不足，請手動輸入",
+            "data": mock_response
+        }
 
-    報告描述的流程：
-      - 前端將影像幀進行 Base64 編碼，封裝於 HTTP POST 請求
-      - 辨識模組使用 NoisyViT 模型進行推論
-      - 回傳食材標籤、信心分數及邊框座標
-      - 信心門檻設定為 0.85
-    """
-    return {
-        "status": "NOT_IMPLEMENTED",
-        "message": "影像辨識功能尚未實作，需先與 AI 模組同學確認接口規格"
-    }
 
 
-# ----------------------------------------------------------------
-# 條碼掃描相關端點
-# ----------------------------------------------------------------
-@router.post("/barcode")
-def barcode_lookup(request: BarcodeRequest):
-    """
-    條碼查詢 API
-    對應報告 3-3-1：Barcode 輸入視為精確查詢
-
-    TODO: ❻ 需與資料庫及硬體同學確認：
-      1. ingredients 表是否需要新增 barcode 欄位
-      2. 條碼對應食材的資料從何而來
-    """
-    return {
-        "status": "NOT_IMPLEMENTED",
-        "message": "條碼查詢功能尚未實作，需先確認資料庫是否有 barcode 欄位"
-    }

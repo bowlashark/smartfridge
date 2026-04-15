@@ -50,12 +50,7 @@ app = FastAPI(
         "- **Categories**: 食材分類管理\n"
         "- **Ingredients**: 食材範本（Template Library）查詢\n"
         "- **Inventory**: 使用者庫存 CRUD 操作\n"
-        "- **System**: 系統控制（喚醒/休眠/到期掃描/辨識）\n\n"
-        "## 待實作功能（需與組員討論）\n"
-        "- ❷ 使用者驗證機制\n"
-        "- ❸ 推播通知服務\n"
-        "- ❹ 影像辨識 API 整合\n"
-        "- ❻ 條碼掃描對應"
+        "- **System**: 系統控制（喚醒/休眠/到期掃描/辨識）"
     ),
     version="1.0.0",
     lifespan=lifespan
