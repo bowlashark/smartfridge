@@ -64,17 +64,12 @@ class DBQueryModule:
     def standardize_query(self, query: str) -> str:
         """
         報告 3-3-2 A.1：標準化前處理
-        對查詢字串去除空白、統一大小寫，並進行同義詞對照。
+        目前暫時關閉同義詞轉換，直接回傳小寫去空白後的字串，
+        以確保能搜到資料庫中的英文名稱 (例如 Egg, Coffee)。
         """
         if not query:
             return ""
-        normalized = query.strip().lower()
-
-        # 同義詞對照：若輸入的詞在對照表中，替換為標準名稱
-        if normalized in SYNONYM_MAP:
-            normalized = SYNONYM_MAP[normalized].lower()
-
-        return normalized
+        return query.strip().lower()
 
     # ----------------------------------------------------------------
     # A.2 主庫查詢（Inventory）
