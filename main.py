@@ -160,7 +160,7 @@ def root():
         "docs": "/docs"
     }
 
-@app.get("/health", tags=["Root"])
+@app.api_route("/health", methods=["GET", "HEAD"], tags=["Root"])
 def health_check():
     """單純的健康檢查，供外部服務（如 Render）定時呼叫防休眠"""
     return {"status": "ok"}
