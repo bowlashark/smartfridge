@@ -89,6 +89,41 @@ class DBUpdateModule:
         return result
 
     # ----------------------------------------------------------------
+    # B.2 資料寫入操作（新增食材範本）
+    # ----------------------------------------------------------------
+    def create_ingredient(self, data: dict):
+        """
+        新增食材範本
+        邏輯：先檢查是否已有同名食材，若有則回傳既有資料，若無則新增。
+        """
+        name = data.get("name", "").strip()
+        
+        # 1. 檢查是否存在相同名稱的食材（精確比對）
+        existing = (
+            self.db.table("ingredients")
+            .select("*")
+            .ilike("name", name)
+            .execute()
+        )
+        
+        if existing.data:
+            print(f"[Info] Ingredient '{name}' already exists. Returning existing record.")
+            return existing.data[0]
+            
+        # 2. 如果不存在，則新增
+        clean_data = {k: v for k, v in data.items() if v is not None}
+        result = (
+            self.db.table("ingredients")
+            .insert(clean_data)
+            .execute()
+        )
+        
+        if result.data:
+            print(f"[LOG] Created new ingredient: {result.data[0]}")
+            
+        return result.data[0] if result.data else None
+
+    # ----------------------------------------------------------------
     # B.2 資料寫入操作（修改）
     # ----------------------------------------------------------------
     def update_inventory(self, inventory_id: int, data: dict):

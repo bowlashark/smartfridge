@@ -6,7 +6,8 @@
 
 from fastapi import APIRouter, HTTPException, Query
 from database import get_db
-from schemas.ingredient import IngredientResponse
+from schemas.ingredient import IngredientResponse, IngredientCreate
+from services.db_update_module import DBUpdateModule
 from services.db_query_module import DBQueryModule
 from typing import List, Optional
 
@@ -14,6 +15,22 @@ router = APIRouter(
     prefix="/api/v1/ingredients",
     tags=["Ingredients 食材範本"]
 )
+
+
+
+@router.post("", response_model=IngredientResponse, status_code=201)
+def create_ingredient(item: IngredientCreate):
+    """
+    新增食材範本
+    讓使用者可以擴充系統不認識的食材。
+    """
+    update_module = DBUpdateModule()
+    result = update_module.create_ingredient(item.model_dump())
+    
+    if not result:
+        raise HTTPException(status_code=500, detail="Failed to create ingredient")
+    
+    return result
 
 
 @router.get("", response_model=List[IngredientResponse])

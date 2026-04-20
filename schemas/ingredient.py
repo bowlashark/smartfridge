@@ -8,6 +8,13 @@ from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
 
+class IngredientCreate(BaseModel):
+    """新增食材範本請求格式"""
+    name: str
+    category_id: Optional[int] = None
+    default_expire_days: Optional[int] = 7  # 預設 7 天
+
+
 class IngredientResponse(BaseModel):
     """食材範本回應格式"""
     model_config = ConfigDict(extra="ignore")  # 忽略 Supabase 回傳的多餘欄位

@@ -61,7 +61,10 @@ app = FastAPI(
 # ----------------------------------------------------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # TODO: 正式環境應限制為前端的域名
+    allow_origins=[
+        "http://localhost:3000",
+        "https://frontend-six-kappa-55.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
