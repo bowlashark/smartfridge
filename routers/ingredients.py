@@ -17,7 +17,6 @@ router = APIRouter(
 )
 
 
-
 @router.post("", response_model=IngredientResponse, status_code=201)
 def create_ingredient(item: IngredientCreate):
     """
