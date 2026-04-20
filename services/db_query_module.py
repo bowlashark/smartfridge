@@ -158,6 +158,13 @@ class DBQueryModule:
         result = query.execute()
         return result.data
 
+    def create_ingredient(self, name: str, category_id: int = None):
+        data = {"name": name}
+        if category_id is not None:
+            data["category_id"] = category_id
+        result = self.db.table("ingredients").insert(data).execute()
+        return result.data[0] if result.data else None
+
     def query_ingredient_by_id(self, ingredient_id: int):
         result = (
             self.db.table("ingredients")
